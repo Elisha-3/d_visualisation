@@ -1,8 +1,7 @@
-// charts.js
 document.addEventListener("DOMContentLoaded", function() {
   loadCharts();
 
-  // Handle upload form submission
+  // Handling upload form submission
   document.getElementById('uploadForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const formData = new FormData(this);
@@ -20,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     .then(data => {
       responseMessage.textContent = data.message;
       responseMessage.className = 'mt-3 text-success';
-      loadCharts(); // Reload charts after successful upload
+      loadCharts();
     })
     .catch(error => {
       responseMessage.textContent = error.message || 'Upload failed';
@@ -32,7 +31,6 @@ document.addEventListener("DOMContentLoaded", function() {
     fetch('/api/data')
       .then(response => response.json())
       .then(data => {
-        // Donut Chart (Q1 Distribution)
         const donutCtx = document.getElementById('donutChart').getContext('2d');
         new Chart(donutCtx, {
           type: 'pie',
@@ -53,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
           }
         });
 
-        // Bar Chart (Q1 Counts)
         const barCtx = document.getElementById('barChart').getContext('2d');
         new Chart(barCtx, {
           type: 'bar',

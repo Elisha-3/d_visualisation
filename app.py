@@ -8,7 +8,7 @@ from xlsxwriter import Workbook
 
 app = Flask(__name__, template_folder='templates', static_folder='static')
 
-# Database Configuration (use environment variables for security)
+# Database Configuration
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
@@ -16,7 +16,7 @@ DB_CONFIG = {
     'database': 'd_visualisation'
 }
 
-# Create SQLAlchemy engine with error handling
+# SQLAlchemy engine with error handling
 try:
     engine = create_engine(f"mysql+pymysql://{DB_CONFIG['user']}:{DB_CONFIG['password']}@{DB_CONFIG['host']}/{DB_CONFIG['database']}")
     with engine.connect() as conn:
@@ -110,11 +110,9 @@ def get_data():
                 if option in q1_options:
                     q1_counts[option] += 1
 
-        # Q1 distribution (simplified to match screenshot)
+        # Q1 distribution
         total_respondents = len(df['q1'].dropna().unique())
         q1_dist = {'Q1': 0.6, 'Q2': 0.2, 'Q3': 0.2} if total_respondents > 0 else {'Q1': 0, 'Q2': 0, 'Q3': 0}
-
-        # Prepare data for frontend
         return jsonify({
             "q1_counts": q1_counts,
             "q1_dist": q1_dist,
@@ -128,7 +126,7 @@ def get_data():
     except Exception as e:
         return jsonify({'error': f'Error fetching data: {str(e)}'}), 500
 
-# CRUD Endpoints
+# Routes
 @app.route('/api/data', methods=['POST'])
 def add_data():
     try:
